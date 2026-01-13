@@ -1,3 +1,21 @@
 {
-  
+  "registrations": [
+    {
+      "student_name": "bvfcdxs",
+      "roll_no": "1234567890",
+      "course": "b.tech",
+      "college": "Noida International University (NIU)",
+      "college_id": "",
+      "other_college": "",
+      "events": "Singing",
+      "group_members": "fdb",
+      "contact_numbers": "dfb",
+      "total_amount": 0,
+      "payment_screenshot": "1234567890_Screenshot_2024-09-19_132953.png",
+      "payment_status": "Submitted",
+      "id": 1,
+      "created_at": "2026-01-13 11:06:20"
+    }
+  ],
+  "last_id": 1
 }

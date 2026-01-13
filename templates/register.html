@@ -13,7 +13,8 @@ body { font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans
 .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; color: white; }
 .header h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
 .header p { font-size: clamp(0.9rem, 2.5vw, 1.1rem); opacity: 0.95; font-weight: 300; }
-.banner-img { width: 100%; max-height: 300px; object-fit: cover; }
+.banner-img { width: 100%; max-height: 600px; object-fit: cover; display: block; }
+.banner-img.hidden { display: none; }
 .form-content { padding: 30px; }
 .notice { background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); padding: 20px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid #667eea; }
 .notice-title { font-weight: 700; color: #4c1d95; margin-bottom: 8px; font-size: 1.1rem; }
@@ -51,8 +52,9 @@ input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; b
 .total-amount { font-size: 2.5rem; font-weight: 800; color: #047857; }
 .qr-section { background: #f9fafb; padding: 30px; border-radius: 12px; margin-top: 25px; text-align: center; border: 2px dashed #d1d5db; }
 .qr-section h3 { color: #1f2937; margin-bottom: 20px; font-size: 1.4rem; }
-.qr-container { width: 240px; height: 240px; background: white; margin: 20px auto; border-radius: 12px; border: 2px solid #e5e7eb; display: flex; align-items: center; justify-content: center; padding: 10px; }
-.qr-container canvas, .qr-container img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+.qr-container { width: 260px; height: 260px; background: white; margin: 20px auto; border-radius: 12px; border: 2px solid #e5e7eb; display: flex; align-items: center; justify-content: center; padding: 15px; }
+.qr-container img { width: 100% !important; height: 100% !important; object-fit: contain !important; display: block; }
+.qr-container canvas { display: block !important; margin: 0 auto !important; }
 .upload-area { margin-top: 25px; }
 .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; max-width: 400px; margin: 15px auto 0; }
 .file-input-label { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; background: #f3f4f6; border: 2px dashed #9ca3af; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; color: #4b5563; }
@@ -81,7 +83,7 @@ input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; b
 .success-buttons .btn { margin-top: 0; flex: 1; }
 .btn-secondary { background: #e5e7eb; color: #1f2937; }
 .btn-secondary:hover { background: #d1d5db; }
-@media (max-width: 640px) { .form-content { padding: 20px; } .header { padding: 30px 20px; } .total-amount { font-size: 2rem; } }
+@media (max-width: 640px) { .form-content { padding: 20px; } .header { padding: 30px 20px; } .total-amount { font-size: 2rem; } .qr-container { width: 220px; height: 220px; } }
 @media (max-width: 480px) { .success-content { padding: 40px 25px; } .success-icon { width: 80px; height: 80px; font-size: 3rem; } .success-content h2 { font-size: 1.5rem; } .success-buttons { flex-direction: column; } }
 </style>
 </head>
@@ -94,6 +96,8 @@ input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; b
         <h2>Registration Successful! 🎉</h2>
         <p>Your registration for ZEAL 10.0 has been submitted successfully.</p>
         <div class="success-details">
+            <p>📋 Registration ID: #{{ registration_id }}</p>
+            <p>📧 You will receive a confirmation email shortly</p>
             <p>✅ Payment verification is in progress</p>
         </div>
         <div class="success-buttons">
@@ -109,9 +113,14 @@ input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; b
         <p>Mangalmay Group of Institutions</p>
         <p style="font-size: 0.9rem; margin-top: 5px;">Student Competition Registration</p>
     </div>
-    {% if banner_exists %}
-    <img src="{{ url_for('static', filename='images/zeal_banner.jpeg') }}" alt="ZEAL 10.0 Banner" class="banner-img">
-    {% endif %}
+    
+    <!-- Banner Image - Will show only if image exists -->
+    <img src="{{ url_for('static', filename='images/zeal_banner.jpeg') }}" 
+         alt="ZEAL 10.0 Banner" 
+         class="banner-img" 
+         id="bannerImage"
+         onerror="this.style.display='none'">
+    
     <div class="form-content">
         <div class="notice">
             <div class="notice-title">📢 Important Information</div>
@@ -211,7 +220,12 @@ input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; b
             <div id="qrSection" class="qr-section {% if not qr %}hidden{% endif %}">
                 <h3>Scan & Pay with Any UPI App</h3>
                 <div class="qr-container" id="qrContainer">
-                    {% if qr %}<img src="{{ url_for('static', filename='qr/' + qr) }}" alt="Payment QR Code">{% endif %}
+                    {% if qr %}
+                    <img src="{{ url_for('static', filename='qr/' + qr) }}" 
+                         alt="Payment QR Code" 
+                         id="qrImage"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2YwZjBmMCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM2NjY2NjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5RUiBDb2RlPC90ZXh0Pjwvc3ZnPg=='">
+                    {% endif %}
                 </div>
                 <p style="color: #059669; font-weight: 700; font-size: 1.2rem; margin: 15px 0;">
                     Amount: ₹<span id="qrAmount">{{ total if total else 0 }}</span>
@@ -261,6 +275,9 @@ const events = [
     {name:"T-Shirt Painting", price:100},
     {name:"Eco-Voice Debate / GreenSpeak Debate", price:100},
     {name:"Face Painting Competition", price:100},
+    {name:"BGMI", price:100},
+    {name:"Beat Boxing", price:100},
+    {name:"Band", price:500},
     {name:"Dance Competition", price:null, categories: [
         {name: "Solo", price: 100},
         {name: "Duet", price: 200},
@@ -270,30 +287,39 @@ const events = [
         {name: "Solo", price: 100},
         {name: "Duet", price: 200},
         {name: "Group", price: 300}
+    ]},
+    {name:"Singing", price:null, categories: [
+        {name: "Solo", price: 100},
+        {name: "Duet", price: 200}
     ]}
 ];
 
 const selectedEventsFromServer = {{ selected_events | tojson | safe }};
 const container = document.getElementById('eventsContainer');
+let eventIndex = 0;
 
-events.forEach((event, index) => {
+events.forEach((event) => {
+    const currentEventIndex = eventIndex;
     const card = document.createElement('div');
     card.className = 'event-card';
+    card.dataset.eventIndex = currentEventIndex;
+    card.dataset.eventName = event.name;
     
     if (event.categories) {
         card.innerHTML = `
-            <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-has-categories="true">
-            <label for="event_${index}" class="event-label">
+            <input type="checkbox" name="events" id="event_${currentEventIndex}" value="${event.name}" data-has-categories="true" data-event-index="${currentEventIndex}">
+            <input type="hidden" class="event-checkbox-index" value="">
+            <label for="event_${currentEventIndex}" class="event-label">
                 <div class="checkbox-custom"></div>
                 <div class="event-info">
                     <div class="event-name">${event.name}</div>
                 </div>
             </label>
-            <div class="category-options" id="categories_${index}" style="display: none;">
+            <div class="category-options" id="categories_${currentEventIndex}" style="display: none;">
                 ${event.categories.map((cat, catIndex) => `
-                    <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0; cursor: pointer; font-size: 0.9rem;">
-                        <input type="radio" name="category_${index}" value="${cat.name}" data-price="${cat.price}" 
-                            ${catIndex === 0 ? 'checked' : ''}>
+                    <label onclick="event.stopPropagation();">
+                        <input type="radio" class="category-radio" data-event-index="${currentEventIndex}" value="${cat.name}" data-price="${cat.price}" 
+                            ${catIndex === 0 ? 'checked' : ''} onclick="updateTotal()">
                         <span style="color: #374151;">${cat.name} - <span style="color: #059669; font-weight: 600;">₹${cat.price}</span></span>
                     </label>
                 `).join('')}
@@ -301,39 +327,39 @@ events.forEach((event, index) => {
         `;
     } else {
         card.innerHTML = `
-            <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-price="${event.price}">
-            <label for="event_${index}" class="event-label">
+            <input type="checkbox" name="events" id="event_${currentEventIndex}" value="${event.name}" data-price="${event.price}">
+            <label for="event_${currentEventIndex}" class="event-label">
                 <div class="checkbox-custom"></div>
                 <div class="event-info">
                     <div class="event-name">${event.name}</div>
-                    <div class="event-price" id="price_${index}">₹${event.price}</div>
+                    <div class="event-price" id="price_${currentEventIndex}">₹${event.price}</div>
                 </div>
             </label>
         `;
     }
     
     card.addEventListener('click', function(e) {
-        if (e.target.type === 'radio') return;
+        if (e.target.type === 'radio' || e.target.closest('.category-options')) return;
+        
         const checkbox = this.querySelector('input[type="checkbox"]');
         const categoryOptions = this.querySelector('.category-options');
+        
         checkbox.checked = !checkbox.checked;
         updateEventSelection(this, checkbox.checked);
+        
         if (categoryOptions) {
             categoryOptions.style.display = checkbox.checked ? 'block' : 'none';
             if (checkbox.checked) {
                 const firstRadio = categoryOptions.querySelector('input[type="radio"]');
-                if (firstRadio) firstRadio.checked = true;
+                if (firstRadio) {
+                    firstRadio.checked = true;
+                    updateRadioNames();
+                }
             }
         }
+        
         updateTotal();
     });
-    
-    if (event.categories) {
-        const radios = card.querySelectorAll('input[type="radio"]');
-        radios.forEach(radio => {
-            radio.addEventListener('change', updateTotal);
-        });
-    }
     
     container.appendChild(card);
     
@@ -358,7 +384,22 @@ events.forEach((event, index) => {
             }
         });
     }
+    
+    eventIndex++;
 });
+
+function updateRadioNames() {
+    const checkedBoxes = document.querySelectorAll('input[name="events"]:checked');
+    checkedBoxes.forEach((checkbox, checkboxIndex) => {
+        const card = checkbox.closest('.event-card');
+        if (card) {
+            const radios = card.querySelectorAll('.category-radio');
+            radios.forEach(radio => {
+                radio.name = `category_${checkboxIndex}`;
+            });
+        }
+    });
+}
 
 function updateEventSelection(card, isSelected) {
     if (isSelected) {
@@ -379,10 +420,13 @@ function updateTotal() {
     let total = 0;
     const isMangalmay = document.getElementById('college').value === 'Mangalmay Group of Institutions';
     
-    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox, index) => {
+    const allCards = document.querySelectorAll('.event-card');
+    allCards.forEach((card) => {
+        const checkbox = card.querySelector('input[type="checkbox"]');
         if (!checkbox.checked) return;
-        const card = checkbox.closest('.event-card');
+        
         const hasCategories = checkbox.dataset.hasCategories === 'true';
+        const cardIndex = card.dataset.eventIndex;
         
         if (hasCategories) {
             const selectedRadio = card.querySelector('input[type="radio"]:checked');
@@ -392,7 +436,7 @@ function updateTotal() {
                 else total += price;
             }
         } else {
-            const priceEl = document.getElementById(`price_${index}`);
+            const priceEl = document.getElementById(`price_${cardIndex}`);
             let price = parseInt(checkbox.dataset.price);
             if (isMangalmay) {
                 const discounted = price / 2;
@@ -438,7 +482,7 @@ function generateQR() {
         return;
     }
     
-    // Set step to QR and submit form to server
+    updateRadioNames();
     document.getElementById('stepInput').value = 'qr';
     document.getElementById('registrationForm').submit();
 }
@@ -449,7 +493,6 @@ function submitFinalForm() {
         return false;
     }
     
-    // Set step to final and submit
     document.getElementById('stepInput').value = 'final';
     document.getElementById('registrationForm').submit();
 }
@@ -461,7 +504,6 @@ document.getElementById('payment_screenshot').addEventListener('change', functio
     }
 });
 
-// Initialize total on page load
 updateTotal();
 </script>
 

@@ -41,6 +41,9 @@ EVENT_PRICES = {
     "T-Shirt Painting": 100,
     "Eco-Voice Debate / GreenSpeak Debate": 100,
     "Face Painting Competition": 100,
+    "BGMI": 100,
+    "Beat Boxing": 100,
+    "Band": 500,
     # Category-based events
     "Dance Competition - Solo": 100,
     "Dance Competition - Duet": 200,
@@ -48,6 +51,8 @@ EVENT_PRICES = {
     "Fashion Show Competition - Solo": 100,
     "Fashion Show Competition - Duet": 200,
     "Fashion Show Competition - Group": 300,
+    "Singing - Solo": 100,
+    "Singing - Duet": 200,
 }
 
 # ---------------- JSON DATABASE FUNCTIONS ----------------
@@ -106,16 +111,55 @@ def parse_events_with_categories(form_data):
     selected_events = form_data.getlist("events")
     events_list = []
     
-    for i, event in enumerate(selected_events):
-        # Check if this event has categories
-        category_key = f"category_{i}"
-        if category_key in form_data:
-            category = form_data.get(category_key)
-            events_list.append(f"{event} - {category}")
-        else:
-            events_list.append(event)
+    print(f"Raw selected events: {selected_events}")
+    print(f"All form keys: {list(form_data.keys())}")
     
-    print(f"Parsed events: {events_list}")
+    # Build a map of event indices to their categories
+    category_map = {}
+    for key in form_data.keys():
+        if key.startswith('category_'):
+            event_idx = key.replace('category_', '')
+            category_map[event_idx] = form_data.get(key)
+            print(f"Found category: {key} = {form_data.get(key)}")
+    
+    # Match events with their categories
+    for i, event in enumerate(selected_events):
+        # Try to find category by matching index
+        category_found = False
+        for cat_idx, category in category_map.items():
+            # Check if this category belongs to this event
+            # The category index should match the checkbox index
+            checkbox_indices = [j for j, e in enumerate(selected_events) if e == event]
+            if str(cat_idx) in [str(idx) for idx in range(len(form_data.getlist("events")))]:
+                # Get the actual event index from the form
+                all_event_checkboxes = [(k, v) for k, v in form_data.items() if k == 'events']
+                # Use a simpler approach: just check all category fields
+                test_key = f"category_{i}"
+                if test_key in category_map:
+                    event_with_category = f"{event} - {category_map[test_key]}"
+                    events_list.append(event_with_category)
+                    print(f"Event with category (matched by index): {event_with_category}")
+                    category_found = True
+                    break
+        
+        if not category_found:
+            # Check if event name suggests it should have categories
+            if event in ["Dance Competition", "Fashion Show Competition", "Singing"]:
+                # Try to find any category that might match
+                for cat_idx, category in category_map.items():
+                    if category:  # If we have a category, use it
+                        event_with_category = f"{event} - {category}"
+                        events_list.append(event_with_category)
+                        print(f"Event with category (fallback): {event_with_category}")
+                        category_found = True
+                        del category_map[cat_idx]  # Remove used category
+                        break
+            
+            if not category_found:
+                events_list.append(event)
+                print(f"Event without category: {event}")
+    
+    print(f"Final parsed events: {events_list}")
     return events_list
 
 def calculate_total_from_events(events_list, college):
@@ -123,10 +167,13 @@ def calculate_total_from_events(events_list, college):
     total = 0
     for event in events_list:
         price = EVENT_PRICES.get(event, 0)
+        if price == 0:
+            print(f"WARNING: No price found for event: {event}")
         if college == "Mangalmay Group of Institutions":
             price = price // 2
         total += price
-    print(f"Total calculated: ₹{total} for {len(events_list)} events")
+        print(f"Event: {event}, Price: ₹{price}, Running Total: ₹{total}")
+    print(f"Final total calculated: ₹{total} for {len(events_list)} events (College: {college})")
     return total
 
 # ---------------- ROUTES ----------------
@@ -192,7 +239,7 @@ def register():
             img = qr.make_image(fill_color="black", back_color="white")
             img.save(qr_path)
             
-            print(f"QR code generated: {qr_file}")
+            print(f"QR code generated: {qr_file} for amount: ₹{total}")
 
             return render_template(
                 "register.html",
