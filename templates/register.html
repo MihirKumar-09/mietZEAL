@@ -94,6 +94,8 @@ input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; b
         <h2>Registration Successful! 🎉</h2>
         <p>Your registration for ZEAL 10.0 has been submitted successfully.</p>
         <div class="success-details">
+            <p>📋 Registration ID: #{{ registration_id }}</p>
+            <p>📧 You will receive a confirmation email shortly</p>
             <p>✅ Payment verification is in progress</p>
         </div>
         <div class="success-buttons">
@@ -261,6 +263,9 @@ const events = [
     {name:"T-Shirt Painting", price:100},
     {name:"Eco-Voice Debate / GreenSpeak Debate", price:100},
     {name:"Face Painting Competition", price:100},
+    {name:"BGMI", price:100},
+    {name:"Beat Boxing", price:100},
+    {name:"Band", price:500},
     {name:"Dance Competition", price:null, categories: [
         {name: "Solo", price: 100},
         {name: "Duet", price: 200},
@@ -270,30 +275,41 @@ const events = [
         {name: "Solo", price: 100},
         {name: "Duet", price: 200},
         {name: "Group", price: 300}
+    ]},
+    {name:"Singing", price:null, categories: [
+        {name: "Solo", price: 100},
+        {name: "Duet", price: 200}
     ]}
 ];
 
 const selectedEventsFromServer = {{ selected_events | tojson | safe }};
 const container = document.getElementById('eventsContainer');
+let eventIndex = 0; // Global counter for unique event IDs
+let checkedEventsCount = 0; // Track number of checked events
 
-events.forEach((event, index) => {
+events.forEach((event) => {
+    const currentEventIndex = eventIndex;
     const card = document.createElement('div');
     card.className = 'event-card';
+    card.dataset.eventIndex = currentEventIndex;
+    card.dataset.eventName = event.name;
     
     if (event.categories) {
+        // For category-based events, we'll use a hidden input to track the actual checkbox index
         card.innerHTML = `
-            <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-has-categories="true">
-            <label for="event_${index}" class="event-label">
+            <input type="checkbox" name="events" id="event_${currentEventIndex}" value="${event.name}" data-has-categories="true" data-event-index="${currentEventIndex}">
+            <input type="hidden" class="event-checkbox-index" value="">
+            <label for="event_${currentEventIndex}" class="event-label">
                 <div class="checkbox-custom"></div>
                 <div class="event-info">
                     <div class="event-name">${event.name}</div>
                 </div>
             </label>
-            <div class="category-options" id="categories_${index}" style="display: none;">
+            <div class="category-options" id="categories_${currentEventIndex}" style="display: none;">
                 ${event.categories.map((cat, catIndex) => `
-                    <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0; cursor: pointer; font-size: 0.9rem;">
-                        <input type="radio" name="category_${index}" value="${cat.name}" data-price="${cat.price}" 
-                            ${catIndex === 0 ? 'checked' : ''}>
+                    <label onclick="event.stopPropagation();">
+                        <input type="radio" class="category-radio" data-event-index="${currentEventIndex}" value="${cat.name}" data-price="${cat.price}" 
+                            ${catIndex === 0 ? 'checked' : ''} onclick="updateTotal()">
                         <span style="color: #374151;">${cat.name} - <span style="color: #059669; font-weight: 600;">₹${cat.price}</span></span>
                     </label>
                 `).join('')}
@@ -301,39 +317,49 @@ events.forEach((event, index) => {
         `;
     } else {
         card.innerHTML = `
-            <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-price="${event.price}">
-            <label for="event_${index}" class="event-label">
+            <input type="checkbox" name="events" id="event_${currentEventIndex}" value="${event.name}" data-price="${event.price}">
+            <label for="event_${currentEventIndex}" class="event-label">
                 <div class="checkbox-custom"></div>
                 <div class="event-info">
                     <div class="event-name">${event.name}</div>
-                    <div class="event-price" id="price_${index}">₹${event.price}</div>
+                    <div class="event-price" id="price_${currentEventIndex}">₹${event.price}</div>
                 </div>
             </label>
         `;
     }
     
     card.addEventListener('click', function(e) {
-        if (e.target.type === 'radio') return;
+        if (e.target.type === 'radio' || e.target.closest('.category-options')) return;
+        
         const checkbox = this.querySelector('input[type="checkbox"]');
         const categoryOptions = this.querySelector('.category-options');
+        const hiddenIndex = this.querySelector('.event-checkbox-index');
+        
         checkbox.checked = !checkbox.checked;
+        
+        if (checkbox.checked && hiddenIndex) {
+            // Assign the checkbox index when checked
+            const checkedBoxes = document.querySelectorAll('input[name="events"]:checked');
+            const thisCheckboxPosition = Array.from(checkedBoxes).indexOf(checkbox);
+            hiddenIndex.value = thisCheckboxPosition;
+        }
+        
         updateEventSelection(this, checkbox.checked);
+        
         if (categoryOptions) {
             categoryOptions.style.display = checkbox.checked ? 'block' : 'none';
             if (checkbox.checked) {
                 const firstRadio = categoryOptions.querySelector('input[type="radio"]');
-                if (firstRadio) firstRadio.checked = true;
+                if (firstRadio) {
+                    firstRadio.checked = true;
+                    // Update the radio button name to match checkbox position
+                    updateRadioNames();
+                }
             }
         }
+        
         updateTotal();
     });
-    
-    if (event.categories) {
-        const radios = card.querySelectorAll('input[type="radio"]');
-        radios.forEach(radio => {
-            radio.addEventListener('change', updateTotal);
-        });
-    }
     
     container.appendChild(card);
     
@@ -358,7 +384,23 @@ events.forEach((event, index) => {
             }
         });
     }
+    
+    eventIndex++;
 });
+
+// Function to update radio button names based on checkbox positions
+function updateRadioNames() {
+    const checkedBoxes = document.querySelectorAll('input[name="events"]:checked');
+    checkedBoxes.forEach((checkbox, checkboxIndex) => {
+        const card = checkbox.closest('.event-card');
+        if (card) {
+            const radios = card.querySelectorAll('.category-radio');
+            radios.forEach(radio => {
+                radio.name = `category_${checkboxIndex}`;
+            });
+        }
+    });
+}
 
 function updateEventSelection(card, isSelected) {
     if (isSelected) {
@@ -379,10 +421,13 @@ function updateTotal() {
     let total = 0;
     const isMangalmay = document.getElementById('college').value === 'Mangalmay Group of Institutions';
     
-    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox, index) => {
+    const allCards = document.querySelectorAll('.event-card');
+    allCards.forEach((card) => {
+        const checkbox = card.querySelector('input[type="checkbox"]');
         if (!checkbox.checked) return;
-        const card = checkbox.closest('.event-card');
+        
         const hasCategories = checkbox.dataset.hasCategories === 'true';
+        const cardIndex = card.dataset.eventIndex;
         
         if (hasCategories) {
             const selectedRadio = card.querySelector('input[type="radio"]:checked');
@@ -392,7 +437,7 @@ function updateTotal() {
                 else total += price;
             }
         } else {
-            const priceEl = document.getElementById(`price_${index}`);
+            const priceEl = document.getElementById(`price_${cardIndex}`);
             let price = parseInt(checkbox.dataset.price);
             if (isMangalmay) {
                 const discounted = price / 2;
@@ -438,7 +483,9 @@ function generateQR() {
         return;
     }
     
-    // Set step to QR and submit form to server
+    // Update radio button names before submitting
+    updateRadioNames();
+    
     document.getElementById('stepInput').value = 'qr';
     document.getElementById('registrationForm').submit();
 }
@@ -449,7 +496,6 @@ function submitFinalForm() {
         return false;
     }
     
-    // Set step to final and submit
     document.getElementById('stepInput').value = 'final';
     document.getElementById('registrationForm').submit();
 }
@@ -461,7 +507,6 @@ document.getElementById('payment_screenshot').addEventListener('change', functio
     }
 });
 
-// Initialize total on page load
 updateTotal();
 </script>
 

@@ -5,437 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZEAL 10.0 - Admin Dashboard</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-}
-
-.container {
-    max-width: 1600px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    overflow: hidden;
-    animation: slideUp 0.6s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 30px 40px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.header-left h1 {
-    font-size: 2rem;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-left p {
-    opacity: 0.9;
-    font-size: 1rem;
-}
-
-.export-btn {
-    padding: 12px 24px;
-    background: white;
-    color: #667eea;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.export-btn:hover {
-    background: #f0f0f0;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 30px 40px;
-    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-.stat-icon {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.stat-value {
-    font-size: 2.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
-}
-
-.stat-label {
-    color: #6b7280;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.content {
-    padding: 30px 40px;
-}
-
-.controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.search-box {
-    flex: 1;
-    min-width: 300px;
-    max-width: 500px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 14px 20px;
-    padding-left: 45px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #f9fafb url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23667eea" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 15px center;
-}
-
-.search-box input:focus {
-    outline: none;
-    border-color: #667eea;
-    background-color: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.filter-info {
-    color: #6b7280;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.table-wrapper {
-    overflow-x: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    min-width: 1200px;
-}
-
-thead {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-th {
-    padding: 18px 15px;
-    text-align: left;
-    font-weight: 700;
-    color: white;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-
-td {
-    padding: 16px 15px;
-    border-bottom: 1px solid #e5e7eb;
-    color: #4b5563;
-    font-size: 0.9rem;
-    vertical-align: top;
-}
-
-tbody tr {
-    transition: all 0.2s ease;
-}
-
-tbody tr:hover {
-    background: #f9fafb;
-    transform: scale(1.01);
-}
-
-tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.student-name {
-    font-weight: 700;
-    color: #1f2937;
-}
-
-.college-name {
-    color: #6b7280;
-    font-size: 0.85rem;
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.events-cell {
-    max-width: 250px;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #4b5563;
-}
-
-.event-tag {
-    display: inline-block;
-    padding: 4px 10px;
-    background: #e0e7ff;
-    color: #4338ca;
-    border-radius: 6px;
-    margin: 2px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.contact-info {
-    font-family: 'Courier New', monospace;
-    font-size: 0.85rem;
-    color: #059669;
-    font-weight: 600;
-}
-
-.amount {
-    font-weight: 800;
-    color: #059669;
-    font-size: 1.1rem;
-}
-
-.status-badge {
-    padding: 7px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    display: inline-block;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-.status-submitted {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #1e40af;
-}
-
-.status-verified {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #065f46;
-}
-
-.view-btn {
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.view-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-.date-cell {
-    font-size: 0.8rem;
-    color: #6b7280;
-    white-space: nowrap;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 80px 20px;
-    color: #9ca3af;
-}
-
-.empty-state-icon {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    opacity: 0.5;
-}
-
-.empty-state h3 {
-    font-size: 1.5rem;
-    color: #6b7280;
-    margin-bottom: 10px;
-}
-
-.empty-state p {
-    font-size: 1rem;
-}
-
-.no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: #9ca3af;
-}
-
-@media (max-width: 1024px) {
-    .header {
-        padding: 25px 30px;
-    }
-    
-    .content, .stats {
-        padding: 25px 30px;
-    }
-    
-    .header-left h1 {
-        font-size: 1.6rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .header {
-        padding: 20px;
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .header-left h1 {
-        font-size: 1.4rem;
-    }
-    
-    .export-btn {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .content, .stats {
-        padding: 20px;
-    }
-    
-    .stats {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
-    }
-    
-    .stat-value {
-        font-size: 2rem;
-    }
-    
-    .controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .search-box {
-        min-width: 100%;
-        max-width: 100%;
-    }
-    
-    .table-wrapper {
-        border-radius: 8px;
-    }
-    
-    th, td {
-        padding: 12px 10px;
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-    
-    .container {
-        border-radius: 15px;
-    }
-    
-    .stat-icon {
-        font-size: 2rem;
-    }
-    
-    .stat-value {
-        font-size: 1.8rem;
-    }
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+.container { max-width: 1800px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; animation: slideUp 0.6s ease-out; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 40px; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.header-left h1 { font-size: 2rem; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+.header-left p { opacity: 0.9; font-size: 1rem; }
+.header-actions { display: flex; gap: 10px; }
+.export-btn, .refresh-btn { padding: 12px 24px; background: white; color: #667eea; border: none; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.export-btn:hover, .refresh-btn:hover { background: #f0f0f0; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 30px 40px; background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%); border-bottom: 1px solid #e5e7eb; }
+.stat-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); }
+.stat-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+.stat-icon { font-size: 2.5rem; margin-bottom: 10px; }
+.stat-value { font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+.stat-label { color: #6b7280; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.content { padding: 30px 40px; }
+.controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+.search-box { flex: 1; min-width: 300px; max-width: 500px; }
+.search-box input { width: 100%; padding: 14px 20px; padding-left: 45px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem; transition: all 0.3s ease; background: #f9fafb url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23667eea" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 15px center; }
+.search-box input:focus { outline: none; border-color: #667eea; background-color: white; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+.filter-info { color: #6b7280; font-size: 0.9rem; font-weight: 600; }
+.table-wrapper { overflow-x: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+table { width: 100%; border-collapse: collapse; background: white; min-width: 1400px; }
+thead { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: sticky; top: 0; z-index: 10; }
+th { padding: 18px 15px; text-align: left; font-weight: 700; color: white; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+td { padding: 16px 15px; border-bottom: 1px solid #e5e7eb; color: #4b5563; font-size: 0.9rem; vertical-align: top; }
+tbody tr { transition: all 0.2s ease; }
+tbody tr:hover { background: #f9fafb; }
+tbody tr:last-child td { border-bottom: none; }
+.student-name { font-weight: 700; color: #1f2937; }
+.college-name { color: #6b7280; font-size: 0.85rem; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.events-cell { max-width: 300px; font-size: 0.85rem; line-height: 1.6; color: #4b5563; }
+.event-tag { display: inline-block; padding: 5px 12px; background: #e0e7ff; color: #4338ca; border-radius: 6px; margin: 3px 2px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.event-tag.category { background: #fef3c7; color: #92400e; }
+.contact-info { font-family: 'Courier New', monospace; font-size: 0.85rem; color: #059669; font-weight: 600; }
+.amount { font-weight: 800; color: #059669; font-size: 1.1rem; }
+.status-badge { padding: 7px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; text-transform: uppercase; letter-spacing: 0.3px; }
+.status-submitted { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e40af; }
+.status-verified { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #065f46; }
+.view-btn { padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease; }
+.view-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+.date-cell { font-size: 0.8rem; color: #6b7280; white-space: nowrap; }
+.empty-state { text-align: center; padding: 80px 20px; color: #9ca3af; }
+.empty-state-icon { font-size: 5rem; margin-bottom: 20px; opacity: 0.5; }
+.empty-state h3 { font-size: 1.5rem; color: #6b7280; margin-bottom: 10px; }
+.empty-state p { font-size: 1rem; }
+.no-results { text-align: center; padding: 60px 20px; color: #9ca3af; }
+.discount-badge { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; margin-left: 5px; }
+@media (max-width: 1024px) { .header { padding: 25px 30px; } .content, .stats { padding: 25px 30px; } .header-left h1 { font-size: 1.6rem; } }
+@media (max-width: 768px) { .header { padding: 20px; flex-direction: column; align-items: stretch; } .header-left h1 { font-size: 1.4rem; } .header-actions { flex-direction: column; } .export-btn, .refresh-btn { width: 100%; justify-content: center; } .content, .stats { padding: 20px; } .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; } .stat-value { font-size: 2rem; } .controls { flex-direction: column; align-items: stretch; } .search-box { min-width: 100%; max-width: 100%; } .table-wrapper { border-radius: 8px; } th, td { padding: 12px 10px; font-size: 0.8rem; } }
+@media (max-width: 480px) { body { padding: 10px; } .container { border-radius: 15px; } .stat-icon { font-size: 2rem; } .stat-value { font-size: 1.8rem; } }
 </style>
 </head>
 <body>
@@ -446,10 +68,16 @@ tbody tr:last-child td {
             <h1>🎯 ZEAL 10.0 Admin Dashboard</h1>
             <p>Registration Management System</p>
         </div>
-        <a href="/admin/export" class="export-btn">
-            <span>📊</span>
-            <span>Export to Excel</span>
-        </a>
+        <div class="header-actions">
+            <button class="refresh-btn" onclick="window.location.reload()">
+                <span>🔄</span>
+                <span>Refresh</span>
+            </button>
+            <a href="/admin/export" class="export-btn">
+                <span>📊</span>
+                <span>Export to Excel</span>
+            </a>
+        </div>
     </div>
 
     <div class="stats">
@@ -472,6 +100,21 @@ tbody tr:last-child td {
             <div class="stat-icon">✅</div>
             <div class="stat-value">{{ data|selectattr('payment_status', 'equalto', 'Verified')|list|length }}</div>
             <div class="stat-label">Verified Payments</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎓</div>
+            <div class="stat-value">{{ data|selectattr('college', 'equalto', 'Mangalmay Group of Institutions')|list|length }}</div>
+            <div class="stat-label">Mangalmay Students</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎪</div>
+            {% set total_events = namespace(count=0) %}
+            {% for row in data %}
+                {% set event_count = row.events.split(', ')|length %}
+                {% set total_events.count = total_events.count + event_count %}
+            {% endfor %}
+            <div class="stat-value">{{ total_events.count }}</div>
+            <div class="stat-label">Total Event Entries</div>
         </div>
     </div>
 
@@ -513,7 +156,16 @@ tbody tr:last-child td {
                         </td>
                         <td>{{ row.course }}</td>
                         <td>
-                            <div class="college-name" title="{{ row.college }}">{{ row.college }}</div>
+                            <div class="college-name" title="{{ row.college }}">
+                                {% if row.college|length > 30 %}
+                                    {{ row.college[:30] }}...
+                                {% else %}
+                                    {{ row.college }}
+                                {% endif %}
+                                {% if row.college == 'Mangalmay Group of Institutions' %}
+                                <span class="discount-badge">50% OFF</span>
+                                {% endif %}
+                            </div>
                             {% if row.college_id %}
                             <div style="color: #9ca3af; font-size: 0.75rem; margin-top: 2px;">ID: {{ row.college_id }}</div>
                             {% endif %}
@@ -523,16 +175,30 @@ tbody tr:last-child td {
                         </td>
                         <td class="events-cell">
                             {% set event_list = row.events.split(', ') %}
-                            {% for event in event_list[:2] %}
-                            <span class="event-tag">{{ event }}</span>
+                            {% for event in event_list %}
+                                {% if loop.index <= 3 %}
+                                    {% if ' - ' in event %}
+                                        {% set event_parts = event.split(' - ') %}
+                                        <span class="event-tag">{{ event_parts[0] }}</span>
+                                        <span class="event-tag category">{{ event_parts[1] }}</span>
+                                    {% else %}
+                                        <span class="event-tag">{{ event }}</span>
+                                    {% endif %}
+                                {% endif %}
                             {% endfor %}
-                            {% if event_list|length > 2 %}
-                            <span class="event-tag" title="{{ row.events }}">+{{ event_list|length - 2 }} more</span>
+                            {% if event_list|length > 3 %}
+                                <br><span class="event-tag" title="{{ row.events }}" style="background: #f3f4f6; color: #6b7280;">+{{ event_list|length - 3 }} more</span>
                             {% endif %}
                         </td>
                         <td>
                             {% if row.group_members %}
-                            <div style="font-size: 0.85rem; max-width: 150px;">{{ row.group_members[:50] }}{% if row.group_members|length > 50 %}...{% endif %}</div>
+                            <div style="font-size: 0.85rem; max-width: 150px;">
+                                {% if row.group_members|length > 50 %}
+                                    {{ row.group_members[:50] }}...
+                                {% else %}
+                                    {{ row.group_members }}
+                                {% endif %}
+                            </div>
                             {% else %}
                             <span style="color: #9ca3af;">Solo</span>
                             {% endif %}
@@ -551,14 +217,19 @@ tbody tr:last-child td {
                         <td class="date-cell">
                             {% if row.created_at %}
                                 {% if row.created_at is string %}
-                                    <div>{{ row.created_at.split(' ')[0] }}</div>
-                                    <div style="color: #9ca3af;">{{ row.created_at.split(' ')[1] }}</div>
+                                    {% set date_parts = row.created_at.split(' ') %}
+                                    {% if date_parts|length >= 2 %}
+                                        <div>{{ date_parts[0] }}</div>
+                                        <div style="color: #9ca3af;">{{ date_parts[1] }}</div>
+                                    {% else %}
+                                        <div>{{ row.created_at }}</div>
+                                    {% endif %}
                                 {% else %}
                                     <div>{{ row.created_at.strftime('%d-%m-%Y') }}</div>
                                     <div style="color: #9ca3af;">{{ row.created_at.strftime('%H:%M') }}</div>
                                 {% endif %}
                             {% else %}
-                            N/A
+                            <div>N/A</div>
                             {% endif %}
                         </td>
                     </tr>
@@ -602,10 +273,8 @@ function searchTable() {
         }
     }
 
-    // Update visible count
     document.getElementById('visibleCount').textContent = visibleCount;
 
-    // Show/hide no results message
     if (visibleCount === 0 && filter !== '') {
         table.style.display = 'none';
         noResults.style.display = 'block';
@@ -615,7 +284,6 @@ function searchTable() {
     }
 }
 
-// Add animation on load
 window.addEventListener('DOMContentLoaded', function() {
     const rows = document.querySelectorAll('tbody tr');
     rows.forEach((row, index) => {
