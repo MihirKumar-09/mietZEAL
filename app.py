@@ -309,7 +309,7 @@ def register():
                          banner_exists=os.path.exists('static/images/zeal_banner.jpeg'))
 
 # ---------------- ADMIN ----------------
-@app.route("/admin")
+@app.route("/adminmgi")
 def admin():
     try:
         data = get_all_registrations()
@@ -331,7 +331,7 @@ def admin():
         return f"Error loading admin page: {str(e)}", 500
 
 # ---------------- EXPORT TO EXCEL ----------------
-@app.route("/admin/export")
+@app.route("/adminmgi/export")
 def export_excel():
     try:
         data = get_all_registrations()
