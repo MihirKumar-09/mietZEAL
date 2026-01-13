@@ -4,467 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZEAL 10.0 Registration | Mangalmay Group of Institutions</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    overflow: hidden;
-    animation: slideUp 0.6s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 40px 30px;
-    text-align: center;
-    color: white;
-}
-
-.header h1 {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-}
-
-.header p {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-    opacity: 0.95;
-    font-weight: 300;
-}
-
-.banner-img {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-}
-
-.form-content {
-    padding: 30px;
-}
-
-.notice {
-    background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    border-left: 4px solid #667eea;
-}
-
-.notice-title {
-    font-weight: 700;
-    color: #4c1d95;
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-}
-
-.notice p {
-    color: #5b21b6;
-    font-size: 0.95rem;
-    margin: 4px 0;
-}
-
-.notice strong {
-    color: #4c1d95;
-}
-
-.form-section {
-    margin-bottom: 30px;
-}
-
-.section-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #e5e7eb;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
-    .form-grid.two-col {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-}
-
-.required::after {
-    content: " *";
-    color: #ef4444;
-}
-
-input[type="text"],
-select {
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #f9fafb;
-}
-
-input[type="text"]:focus,
-select:focus {
-    outline: none;
-    border-color: #667eea;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.events-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 15px;
-}
-
-@media (min-width: 640px) {
-    .events-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-.event-card {
-    background: #f9fafb;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 14px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-}
-
-.event-card:hover {
-    border-color: #667eea;
-    background: #f3f4f6;
-    transform: translateY(-2px);
-}
-
-.event-card.selected {
-    background: #ede9fe;
-    border-color: #667eea;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-.event-card input[type="checkbox"] {
-    display: none;
-}
-
-.event-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    cursor: pointer;
-    pointer-events: none;
-}
-
-.checkbox-custom {
-    width: 22px;
-    height: 22px;
-    border: 2px solid #9ca3af;
-    border-radius: 6px;
-    flex-shrink: 0;
-    position: relative;
-    transition: all 0.3s ease;
-    margin-top: 2px;
-    background: white;
-}
-
-.event-card.selected .checkbox-custom {
-    background: #667eea;
-    border-color: #667eea;
-}
-
-.event-card.selected .checkbox-custom::after {
-    content: "✓";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.event-info {
-    flex: 1;
-}
-
-.event-name {
-    font-weight: 600;
-    color: #1f2937;
-    font-size: 0.95rem;
-    margin-bottom: 4px;
-}
-
-.event-price {
-    color: #059669;
-    font-weight: 700;
-    font-size: 0.9rem;
-}
-
-.event-price.discounted {
-    color: #dc2626;
-}
-
-.event-price .original {
-    text-decoration: line-through;
-    color: #9ca3af;
-    margin-left: 8px;
-    font-size: 0.85rem;
-}
-
-.total-section {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    padding: 25px;
-    border-radius: 12px;
-    margin: 25px 0;
-    text-align: center;
-}
-
-.total-label {
-    font-size: 1rem;
-    color: #065f46;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.total-amount {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #047857;
-}
-
-.qr-section {
-    background: #f9fafb;
-    padding: 30px;
-    border-radius: 12px;
-    margin-top: 25px;
-    text-align: center;
-    border: 2px dashed #d1d5db;
-}
-
-.qr-section h3 {
-    color: #1f2937;
-    margin-bottom: 20px;
-    font-size: 1.4rem;
-}
-
-.qr-container {
-    width: 240px;
-    height: 240px;
-    background: white;
-    margin: 20px auto;
-    border-radius: 12px;
-    border: 2px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-}
-
-.qr-container img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 8px;
-}
-
-.upload-area {
-    margin-top: 25px;
-}
-
-.file-input-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    width: 100%;
-    max-width: 400px;
-    margin: 15px auto 0;
-}
-
-.file-input-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 24px;
-    background: #f3f4f6;
-    border: 2px dashed #9ca3af;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    color: #4b5563;
-}
-
-.file-input-label:hover {
-    background: #e5e7eb;
-    border-color: #667eea;
-}
-
-.file-input-wrapper input[type="file"] {
-    position: absolute;
-    left: -9999px;
-}
-
-.file-name {
-    margin-top: 10px;
-    color: #059669;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.btn {
-    width: 100%;
-    padding: 16px 32px;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 25px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-}
-
-.btn-primary:active {
-    transform: translateY(0);
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.info-box {
-    background: #fef3c7;
-    border-left: 4px solid #f59e0b;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 15px;
-}
-
-.info-box p {
-    color: #92400e;
-    font-size: 0.9rem;
-}
-
-@media (max-width: 640px) {
-    .form-content {
-        padding: 20px;
-    }
-    
-    .header {
-        padding: 30px 20px;
-    }
-    
-    .total-amount {
-        font-size: 2rem;
-    }
-}
-
-.success-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
-}
-
-.success-content {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
-    animation: slideUp 0.4s ease-out;
-}
-
-.success-icon {
-    font-size: 4rem;
-    margin-bottom: 20px;
-}
-
-.success-content h2 {
-    color: #059669;
-    margin-bottom: 15px;
-}
-
-.success-content p {
-    color: #6b7280;
-    margin-bottom: 25px;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; animation: slideUp 0.6s ease-out; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; color: white; }
+.header h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+.header p { font-size: clamp(0.9rem, 2.5vw, 1.1rem); opacity: 0.95; font-weight: 300; }
+.banner-img { width: 100%; max-height: 300px; object-fit: cover; }
+.form-content { padding: 30px; }
+.notice { background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); padding: 20px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid #667eea; }
+.notice-title { font-weight: 700; color: #4c1d95; margin-bottom: 8px; font-size: 1.1rem; }
+.notice p { color: #5b21b6; font-size: 0.95rem; margin: 4px 0; }
+.notice strong { color: #4c1d95; }
+.form-section { margin-bottom: 30px; }
+.section-title { font-size: 1.3rem; font-weight: 700; color: #1f2937; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e5e7eb; }
+.form-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 768px) { .form-grid.two-col { grid-template-columns: 1fr 1fr; } }
+.form-group { display: flex; flex-direction: column; }
+label { font-weight: 600; color: #374151; margin-bottom: 8px; font-size: 0.95rem; }
+.required::after { content: " *"; color: #ef4444; }
+input[type="text"], select { width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: #f9fafb; }
+input[type="text"]:focus, select:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+.events-container { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
+@media (min-width: 640px) { .events-container { grid-template-columns: repeat(2, 1fr); } }
+.event-card { background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 10px; padding: 14px; transition: all 0.3s ease; cursor: pointer; position: relative; user-select: none; }
+.event-card:hover { border-color: #667eea; background: #f3f4f6; transform: translateY(-2px); }
+.event-card.selected { background: #ede9fe; border-color: #667eea; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2); }
+.event-card input[type="checkbox"] { display: none; }
+.event-label { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; pointer-events: none; }
+.checkbox-custom { width: 22px; height: 22px; border: 2px solid #9ca3af; border-radius: 6px; flex-shrink: 0; position: relative; transition: all 0.3s ease; margin-top: 2px; background: white; }
+.event-card.selected .checkbox-custom { background: #667eea; border-color: #667eea; }
+.event-card.selected .checkbox-custom::after { content: "✓"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 14px; font-weight: bold; }
+.event-info { flex: 1; }
+.event-name { font-weight: 600; color: #1f2937; font-size: 0.95rem; margin-bottom: 4px; }
+.event-price { color: #059669; font-weight: 700; font-size: 0.9rem; }
+.event-price.discounted { color: #dc2626; }
+.event-price .original { text-decoration: line-through; color: #9ca3af; margin-left: 8px; font-size: 0.85rem; }
+.category-options { margin-top: 12px; padding-left: 34px; }
+.category-options label { display: flex; align-items: center; gap: 8px; margin: 8px 0; cursor: pointer; font-size: 0.9rem; font-weight: normal; }
+.category-options input[type="radio"] { width: 18px; height: 18px; cursor: pointer; accent-color: #667eea; }
+.total-section { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 25px; border-radius: 12px; margin: 25px 0; text-align: center; }
+.total-label { font-size: 1rem; color: #065f46; font-weight: 600; margin-bottom: 8px; }
+.total-amount { font-size: 2.5rem; font-weight: 800; color: #047857; }
+.qr-section { background: #f9fafb; padding: 30px; border-radius: 12px; margin-top: 25px; text-align: center; border: 2px dashed #d1d5db; }
+.qr-section h3 { color: #1f2937; margin-bottom: 20px; font-size: 1.4rem; }
+.qr-container { width: 240px; height: 240px; background: white; margin: 20px auto; border-radius: 12px; border: 2px solid #e5e7eb; display: flex; align-items: center; justify-content: center; padding: 10px; }
+.qr-container canvas, .qr-container img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+.upload-area { margin-top: 25px; }
+.file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; max-width: 400px; margin: 15px auto 0; }
+.file-input-label { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; background: #f3f4f6; border: 2px dashed #9ca3af; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; color: #4b5563; }
+.file-input-label:hover { background: #e5e7eb; border-color: #667eea; }
+.file-input-wrapper input[type="file"] { position: absolute; left: -9999px; }
+.file-name { margin-top: 10px; color: #059669; font-weight: 600; font-size: 0.9rem; }
+.btn { width: 100%; padding: 16px 32px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 25px; text-transform: uppercase; letter-spacing: 0.5px; }
+.btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5); }
+.btn-primary:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.hidden { display: none !important; }
+.info-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin-top: 15px; }
+.info-box p { color: #92400e; font-size: 0.9rem; }
+.success-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.success-content { background: white; padding: 50px 40px; border-radius: 25px; text-align: center; max-width: 500px; width: 100%; animation: scaleIn 0.4s ease-out; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+.success-icon { width: 100px; height: 100px; margin: 0 auto 25px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4rem; animation: bounce 0.6s ease-out 0.2s; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+.success-content h2 { color: #059669; margin-bottom: 15px; font-size: 2rem; font-weight: 800; }
+.success-content p { color: #6b7280; margin-bottom: 15px; font-size: 1.05rem; line-height: 1.6; }
+.success-details { background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 20px 0; border: 2px solid #86efac; }
+.success-details p { color: #166534; font-weight: 600; margin: 8px 0; font-size: 0.95rem; }
+.success-buttons { display: flex; gap: 15px; margin-top: 30px; }
+.success-buttons .btn { margin-top: 0; flex: 1; }
+.btn-secondary { background: #e5e7eb; color: #1f2937; }
+.btn-secondary:hover { background: #d1d5db; }
+@media (max-width: 640px) { .form-content { padding: 20px; } .header { padding: 30px 20px; } .total-amount { font-size: 2rem; } }
+@media (max-width: 480px) { .success-content { padding: 40px 25px; } .success-icon { width: 80px; height: 80px; font-size: 3rem; } .success-content h2 { font-size: 1.5rem; } .success-buttons { flex-direction: column; } }
 </style>
 </head>
 <body>
+
+{% if success %}
+<div class="success-modal">
+    <div class="success-content">
+        <div class="success-icon">✓</div>
+        <h2>Registration Successful! 🎉</h2>
+        <p>Your registration for ZEAL 10.0 has been submitted successfully.</p>
+        <div class="success-details">
+            <p>✅ Payment verification is in progress</p>
+        </div>
+        <div class="success-buttons">
+            <button class="btn btn-primary" onclick="window.location.href='/'">Register Another</button>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div class="container">
     <div class="header">
@@ -472,125 +109,112 @@ select:focus {
         <p>Mangalmay Group of Institutions</p>
         <p style="font-size: 0.9rem; margin-top: 5px;">Student Competition Registration</p>
     </div>
-
     {% if banner_exists %}
     <img src="{{ url_for('static', filename='images/zeal_banner.jpeg') }}" alt="ZEAL 10.0 Banner" class="banner-img">
     {% endif %}
-
     <div class="form-content">
         <div class="notice">
             <div class="notice-title">📢 Important Information</div>
             <p>✓ Students may select <strong>more than one event</strong></p>
-            <p>✓ <strong>Mangalmay students get 50% discount</strong> on all events</p>
             <p>✓ Complete payment using the generated QR code</p>
         </div>
 
         <form method="POST" enctype="multipart/form-data" id="registrationForm">
-            <input type="hidden" name="step" id="step" value="form">
+            <input type="hidden" name="step" id="stepInput" value="form">
 
-            <!-- Personal Information -->
             <div class="form-section">
                 <h2 class="section-title">Personal Information</h2>
                 <div class="form-grid two-col">
                     <div class="form-group">
                         <label class="required">Student Name</label>
-                        <input type="text" name="student_name" id="student_name" value="{{ form_data.student_name or '' }}" required>
+                        <input type="text" name="student_name" id="student_name" value="{{ form_data.get('student_name', '') }}" required>
                     </div>
                     <div class="form-group">
                         <label class="required">University Roll No.</label>
-                        <input type="text" name="roll_no" id="roll_no" value="{{ form_data.roll_no or '' }}" required>
+                        <input type="text" name="roll_no" id="roll_no" value="{{ form_data.get('roll_no', '') }}" required>
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 20px;">
                     <label class="required">Course</label>
-                    <input type="text" name="course" id="course" value="{{ form_data.course or '' }}" placeholder="e.g., B.Tech CSE, BBA, MBA" required>
+                    <input type="text" name="course" id="course" value="{{ form_data.get('course', '') }}" placeholder="e.g., B.Tech CSE, BBA, MBA" required>
                 </div>
             </div>
 
-            <!-- College Information -->
             <div class="form-section">
                 <h2 class="section-title">College Information</h2>
                 <div class="form-group">
                     <label class="required">Select College</label>
                     <select name="college" id="college" required>
                         <option value="">-- Select Your College --</option>
-                        <option {% if form_data.college == 'Mangalmay Group of Institutions' %}selected{% endif %}>Mangalmay Group of Institutions</option>
-                        <option {% if form_data.college == 'Amity University, Greater Noida' %}selected{% endif %}>Amity University, Greater Noida</option>
-                        <option {% if form_data.college == 'Bennett University' %}selected{% endif %}>Bennett University</option>
-                        <option {% if form_data.college == 'Birla Institute of Management Technology (BIMTECH)' %}selected{% endif %}>Birla Institute of Management Technology (BIMTECH)</option>
-                        <option {% if form_data.college == 'Galgotias College of Engineering and Technology (GCET)' %}selected{% endif %}>Galgotias College of Engineering and Technology (GCET)</option>
-                        <option {% if form_data.college == 'Gautam Buddha University' %}selected{% endif %}>Gautam Buddha University</option>
-                        <option {% if form_data.college == 'G L Bajaj Institute Of Engineering Technology' %}selected{% endif %}>G L Bajaj Institute Of Engineering Technology</option>
-                        <option {% if form_data.college == 'Global Institute Of Information Technology' %}selected{% endif %}>Global Institute Of Information Technology</option>
-                        <option {% if form_data.college == 'Greater Noida Institute of Technology (GNIT)' %}selected{% endif %}>Greater Noida Institute of Technology (GNIT)</option>
-                        <option {% if form_data.college == 'IIMT College' %}selected{% endif %}>IIMT College</option>
-                        <option {% if form_data.college == 'IILM University, Greater Noida' %}selected{% endif %}>IILM University, Greater Noida</option>
-                        <option {% if form_data.college == 'I.T.S Engineering College' %}selected{% endif %}>I.T.S Engineering College</option>
-                        <option {% if form_data.college == 'KCC Institute of Technology and Management' %}selected{% endif %}>KCC Institute of Technology and Management</option>
-                        <option {% if form_data.college == 'Lloyd Business School' %}selected{% endif %}>Lloyd Business School</option>
-                        <option {% if form_data.college == 'Noida Institute of Engineering and Technology' %}selected{% endif %}>Noida Institute of Engineering and Technology</option>
-                        <option {% if form_data.college == 'Noida International University (NIU)' %}selected{% endif %}>Noida International University (NIU)</option>
-                        <option {% if form_data.college == 'Sharda University' %}selected{% endif %}>Sharda University</option>
-                        <option {% if form_data.college == 'United College of Engineering and Research' %}selected{% endif %}>United College of Engineering and Research</option>
-                        <option {% if form_data.college == 'Other' %}selected{% endif %}>Other</option>
+                        <option {% if form_data.get('college') == 'Mangalmay Group of Institutions' %}selected{% endif %}>Mangalmay Group of Institutions</option>
+                        <option {% if form_data.get('college') == 'Amity University, Greater Noida' %}selected{% endif %}>Amity University, Greater Noida</option>
+                        <option {% if form_data.get('college') == 'Bennett University' %}selected{% endif %}>Bennett University</option>
+                        <option {% if form_data.get('college') == 'Birla Institute of Management Technology (BIMTECH)' %}selected{% endif %}>Birla Institute of Management Technology (BIMTECH)</option>
+                        <option {% if form_data.get('college') == 'Galgotias College of Engineering and Technology (GCET)' %}selected{% endif %}>Galgotias College of Engineering and Technology (GCET)</option>
+                        <option {% if form_data.get('college') == 'Gautam Buddha University' %}selected{% endif %}>Gautam Buddha University</option>
+                        <option {% if form_data.get('college') == 'G L Bajaj Institute Of Engineering Technology' %}selected{% endif %}>G L Bajaj Institute Of Engineering Technology</option>
+                        <option {% if form_data.get('college') == 'Global Institute Of Information Technology' %}selected{% endif %}>Global Institute Of Information Technology</option>
+                        <option {% if form_data.get('college') == 'Greater Noida Institute of Technology (GNIT)' %}selected{% endif %}>Greater Noida Institute of Technology (GNIT)</option>
+                        <option {% if form_data.get('college') == 'IIMT College' %}selected{% endif %}>IIMT College</option>
+                        <option {% if form_data.get('college') == 'IILM University, Greater Noida' %}selected{% endif %}>IILM University, Greater Noida</option>
+                        <option {% if form_data.get('college') == 'I.T.S Engineering College' %}selected{% endif %}>I.T.S Engineering College</option>
+                        <option {% if form_data.get('college') == 'KCC Institute of Technology and Management' %}selected{% endif %}>KCC Institute of Technology and Management</option>
+                        <option {% if form_data.get('college') == 'Lloyd Business School' %}selected{% endif %}>Lloyd Business School</option>
+                        <option {% if form_data.get('college') == 'Noida Institute of Engineering and Technology' %}selected{% endif %}>Noida Institute of Engineering and Technology</option>
+                        <option {% if form_data.get('college') == 'Noida International University (NIU)' %}selected{% endif %}>Noida International University (NIU)</option>
+                        <option {% if form_data.get('college') == 'Sharda University' %}selected{% endif %}>Sharda University</option>
+                        <option {% if form_data.get('college') == 'United College of Engineering and Research' %}selected{% endif %}>United College of Engineering and Research</option>
+                        <option {% if form_data.get('college') == 'Other' %}selected{% endif %}>Other</option>
                     </select>
                 </div>
 
-                <div id="college_id_box" class="form-group hidden" style="margin-top: 20px;">
+                <div id="college_id_box" class="form-group {% if form_data.get('college') != 'Mangalmay Group of Institutions' %}hidden{% endif %}" style="margin-top: 20px;">
                     <label class="required">Mangalmay College ID</label>
-                    <input type="text" name="college_id" id="college_id" value="{{ form_data.college_id or '' }}">
+                    <input type="text" name="college_id" id="college_id" value="{{ form_data.get('college_id', '') }}">
                 </div>
 
-                <div id="other_college_box" class="form-group hidden" style="margin-top: 20px;">
+                <div id="other_college_box" class="form-group {% if form_data.get('college') != 'Other' %}hidden{% endif %}" style="margin-top: 20px;">
                     <label class="required">Enter College Name</label>
-                    <input type="text" name="other_college" id="other_college" value="{{ form_data.other_college or '' }}">
+                    <input type="text" name="other_college" id="other_college" value="{{ form_data.get('other_college', '') }}">
                 </div>
             </div>
 
-            <!-- Event Selection -->
             <div class="form-section">
                 <h2 class="section-title">Event Selection</h2>
                 <div class="events-container" id="eventsContainer"></div>
             </div>
 
-            <!-- Group Information -->
             <div class="form-section">
                 <h2 class="section-title">Additional Information</h2>
                 <div class="form-group">
                     <label>Group Members</label>
-                    <input type="text" name="group_members" id="group_members" value="{{ form_data.group_members or '' }}" placeholder="Enter names separated by commas (if applicable)">
+                    <input type="text" name="group_members" id="group_members" value="{{ form_data.get('group_members', '') }}" placeholder="Enter names separated by commas (if applicable)">
                 </div>
                 <div class="form-group" style="margin-top: 20px;">
                     <label class="required">Contact Numbers</label>
-                    <input type="text" name="contact_numbers" id="contact_numbers" value="{{ form_data.contact_numbers or '' }}" placeholder="Enter phone numbers separated by commas" required>
+                    <input type="text" name="contact_numbers" id="contact_numbers" value="{{ form_data.get('contact_numbers', '') }}" placeholder="Enter phone numbers separated by commas" required>
                 </div>
                 <div class="info-box">
                     <p><strong>Note:</strong> For group events, please provide all team member names and contact numbers.</p>
                 </div>
             </div>
 
-            <!-- Total Amount -->
             <div class="total-section">
                 <div class="total-label">Total Registration Amount</div>
-                <div class="total-amount">₹<span id="totalAmount">{{ total or 0 }}</span></div>
+                <div class="total-amount">₹<span id="totalAmount">{{ total if total else 0 }}</span></div>
             </div>
 
-            <!-- Generate QR Button -->
-            {% if not qr %}
             <button type="button" class="btn btn-primary" id="generateQrBtn" onclick="generateQR()">
                 Generate Payment QR Code
             </button>
-            {% endif %}
 
-            <!-- QR Code Section -->
-            {% if qr %}
-            <div id="qrSection" class="qr-section">
+            <div id="qrSection" class="qr-section {% if not qr %}hidden{% endif %}">
                 <h3>Scan & Pay with Any UPI App</h3>
-                <div class="qr-container">
-                    <img src="{{ url_for('static', filename='qr/' + qr) }}" alt="Payment QR Code">
+                <div class="qr-container" id="qrContainer">
+                    {% if qr %}<img src="{{ url_for('static', filename='qr/' + qr) }}" alt="Payment QR Code">{% endif %}
                 </div>
                 <p style="color: #059669; font-weight: 700; font-size: 1.2rem; margin: 15px 0;">
-                    Amount: ₹<span id="qrAmount">{{ total }}</span>
+                    Amount: ₹<span id="qrAmount">{{ total if total else 0 }}</span>
                 </p>
                 <p style="color: #6b7280; font-size: 0.9rem;">
                     UPI ID: 9871223900@ptaxis
@@ -608,36 +232,13 @@ select:focus {
                     <div id="fileName" class="file-name"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" onclick="document.getElementById('step').value='final'">
+                <button type="button" class="btn btn-primary" onclick="submitFinalForm()">
                     Submit Registration
                 </button>
             </div>
-            {% endif %}
         </form>
     </div>
 </div>
-
-{% if success %}
-<script>
-window.addEventListener('DOMContentLoaded', function() {
-    const modal = document.createElement('div');
-    modal.className = 'success-modal';
-    modal.innerHTML = `
-        <div class="success-content">
-            <div class="success-icon">✅</div>
-            <h2>Registration Successful!</h2>
-            <p>Your registration for ZEAL 10.0 has been submitted successfully. You will receive a confirmation shortly.</p>
-            <button class="btn btn-primary" onclick="window.location.href='/'">Register Another</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-    
-    setTimeout(() => {
-        window.location.href = '/';
-    }, 3000);
-});
-</script>
-{% endif %}
 
 <script>
 const events = [
@@ -653,7 +254,6 @@ const events = [
     {name:"Clip Clash – REEL", price:100},
     {name:"Quiz Competition", price:100},
     {name:"Poster Making (Tech Theme)", price:100},
-    {name:"Dance Competition", price:100},
     {name:"Rangoli Competition", price:100},
     {name:"Cook without Fire", price:100},
     {name:"Ad-Mad Show", price:100},
@@ -661,39 +261,103 @@ const events = [
     {name:"T-Shirt Painting", price:100},
     {name:"Eco-Voice Debate / GreenSpeak Debate", price:100},
     {name:"Face Painting Competition", price:100},
-    {name:"Fashion Show (Competition)", price:600},
-    {name:"Dance Competition (Group / Duet / Solo)", price:300}
+    {name:"Dance Competition", price:null, categories: [
+        {name: "Solo", price: 100},
+        {name: "Duet", price: 200},
+        {name: "Group", price: 300}
+    ]},
+    {name:"Fashion Show Competition", price:null, categories: [
+        {name: "Solo", price: 100},
+        {name: "Duet", price: 200},
+        {name: "Group", price: 300}
+    ]}
 ];
 
-// Render events
+const selectedEventsFromServer = {{ selected_events | tojson | safe }};
 const container = document.getElementById('eventsContainer');
-const selectedEvents = {{ selected_events|tojson if selected_events else '[]' }};
 
 events.forEach((event, index) => {
     const card = document.createElement('div');
     card.className = 'event-card';
-    const isSelected = selectedEvents.includes(event.name);
-    if (isSelected) card.classList.add('selected');
     
-    card.innerHTML = `
-        <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-price="${event.price}" ${isSelected ? 'checked' : ''}>
-        <label for="event_${index}" class="event-label">
-            <div class="checkbox-custom"></div>
-            <div class="event-info">
-                <div class="event-name">${event.name}</div>
-                <div class="event-price" id="price_${index}">₹${event.price}</div>
+    if (event.categories) {
+        card.innerHTML = `
+            <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-has-categories="true">
+            <label for="event_${index}" class="event-label">
+                <div class="checkbox-custom"></div>
+                <div class="event-info">
+                    <div class="event-name">${event.name}</div>
+                </div>
+            </label>
+            <div class="category-options" id="categories_${index}" style="display: none;">
+                ${event.categories.map((cat, catIndex) => `
+                    <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0; cursor: pointer; font-size: 0.9rem;">
+                        <input type="radio" name="category_${index}" value="${cat.name}" data-price="${cat.price}" 
+                            ${catIndex === 0 ? 'checked' : ''}>
+                        <span style="color: #374151;">${cat.name} - <span style="color: #059669; font-weight: 600;">₹${cat.price}</span></span>
+                    </label>
+                `).join('')}
             </div>
-        </label>
-    `;
+        `;
+    } else {
+        card.innerHTML = `
+            <input type="checkbox" name="events" id="event_${index}" value="${event.name}" data-price="${event.price}">
+            <label for="event_${index}" class="event-label">
+                <div class="checkbox-custom"></div>
+                <div class="event-info">
+                    <div class="event-name">${event.name}</div>
+                    <div class="event-price" id="price_${index}">₹${event.price}</div>
+                </div>
+            </label>
+        `;
+    }
     
     card.addEventListener('click', function(e) {
+        if (e.target.type === 'radio') return;
         const checkbox = this.querySelector('input[type="checkbox"]');
+        const categoryOptions = this.querySelector('.category-options');
         checkbox.checked = !checkbox.checked;
         updateEventSelection(this, checkbox.checked);
+        if (categoryOptions) {
+            categoryOptions.style.display = checkbox.checked ? 'block' : 'none';
+            if (checkbox.checked) {
+                const firstRadio = categoryOptions.querySelector('input[type="radio"]');
+                if (firstRadio) firstRadio.checked = true;
+            }
+        }
         updateTotal();
     });
     
+    if (event.categories) {
+        const radios = card.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', updateTotal);
+        });
+    }
+    
     container.appendChild(card);
+    
+    // Restore selected events
+    if (selectedEventsFromServer && selectedEventsFromServer.length > 0) {
+        selectedEventsFromServer.forEach(selectedEvent => {
+            const eventParts = selectedEvent.split(' - ');
+            const eventName = eventParts[0];
+            if (event.name === eventName) {
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                checkbox.checked = true;
+                updateEventSelection(card, true);
+                if (event.categories && eventParts.length > 1) {
+                    const categoryName = eventParts[1];
+                    const categoryOptions = card.querySelector('.category-options');
+                    if (categoryOptions) {
+                        categoryOptions.style.display = 'block';
+                        const radioToSelect = Array.from(card.querySelectorAll('input[type="radio"]')).find(r => r.value === categoryName);
+                        if (radioToSelect) radioToSelect.checked = true;
+                    }
+                }
+            }
+        });
+    }
 });
 
 function updateEventSelection(card, isSelected) {
@@ -711,28 +375,25 @@ document.getElementById('college').addEventListener('change', function() {
     updateTotal();
 });
 
-// Initialize on page load
-window.addEventListener('DOMContentLoaded', function() {
-    const college = document.getElementById('college').value;
-    if (college === 'Mangalmay Group of Institutions') {
-        document.getElementById('college_id_box').classList.remove('hidden');
-    }
-    if (college === 'Other') {
-        document.getElementById('other_college_box').classList.remove('hidden');
-    }
-    updateTotal();
-});
-
 function updateTotal() {
     let total = 0;
     const isMangalmay = document.getElementById('college').value === 'Mangalmay Group of Institutions';
     
     document.querySelectorAll('input[type="checkbox"]').forEach((checkbox, index) => {
+        if (!checkbox.checked) return;
         const card = checkbox.closest('.event-card');
-        const priceEl = document.getElementById(`price_${index}`);
-        let price = parseInt(checkbox.dataset.price);
+        const hasCategories = checkbox.dataset.hasCategories === 'true';
         
-        if (checkbox.checked) {
+        if (hasCategories) {
+            const selectedRadio = card.querySelector('input[type="radio"]:checked');
+            if (selectedRadio) {
+                let price = parseInt(selectedRadio.dataset.price);
+                if (isMangalmay) total += price / 2;
+                else total += price;
+            }
+        } else {
+            const priceEl = document.getElementById(`price_${index}`);
+            let price = parseInt(checkbox.dataset.price);
             if (isMangalmay) {
                 const discounted = price / 2;
                 priceEl.innerHTML = `₹${discounted} <span class="original">₹${price}</span>`;
@@ -743,9 +404,6 @@ function updateTotal() {
                 priceEl.classList.remove('discounted');
                 total += price;
             }
-        } else {
-            priceEl.innerHTML = `₹${price}`;
-            priceEl.classList.remove('discounted');
         }
     });
     
@@ -769,7 +427,30 @@ function generateQR() {
         return;
     }
     
-    document.getElementById('step').value = 'qr';
+    const college = document.getElementById('college').value;
+    if (college === 'Mangalmay Group of Institutions' && !document.getElementById('college_id').value) {
+        alert('⚠️ Please enter your Mangalmay College ID!');
+        return;
+    }
+    
+    if (college === 'Other' && !document.getElementById('other_college').value) {
+        alert('⚠️ Please enter your college name!');
+        return;
+    }
+    
+    // Set step to QR and submit form to server
+    document.getElementById('stepInput').value = 'qr';
+    document.getElementById('registrationForm').submit();
+}
+
+function submitFinalForm() {
+    if (!document.getElementById('payment_screenshot').files[0]) {
+        alert('⚠️ Please upload payment screenshot!');
+        return false;
+    }
+    
+    // Set step to final and submit
+    document.getElementById('stepInput').value = 'final';
     document.getElementById('registrationForm').submit();
 }
 
@@ -779,6 +460,9 @@ document.getElementById('payment_screenshot').addEventListener('change', functio
         document.getElementById('fileName').textContent = `✓ ${fileName}`;
     }
 });
+
+// Initialize total on page load
+updateTotal();
 </script>
 
 </body>

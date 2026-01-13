@@ -19,119 +19,293 @@ body {
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     overflow: hidden;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 30px 40px;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.header h1 {
+.header-left h1 {
     font-size: 2rem;
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.header p {
+.header-left p {
     opacity: 0.9;
     font-size: 1rem;
 }
 
+.export-btn {
+    padding: 12px 24px;
+    background: white;
+    color: #667eea;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.export-btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
 .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     padding: 30px 40px;
-    background: #f9fafb;
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
     border-bottom: 1px solid #e5e7eb;
 }
 
 .stat-card {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
 
 .stat-value {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 800;
-    color: #667eea;
-    margin-bottom: 5px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
 }
 
 .stat-label {
     color: #6b7280;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .content {
     padding: 30px 40px;
 }
 
-.table-container {
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 20px;
+    padding-left: 45px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f9fafb url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23667eea" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 15px center;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #667eea;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filter-info {
+    color: #6b7280;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.table-wrapper {
     overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background: white;
+    min-width: 1200px;
 }
 
 thead {
-    background: #f3f4f6;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 th {
-    padding: 15px;
+    padding: 18px 15px;
     text-align: left;
     font-weight: 700;
-    color: #374151;
-    border-bottom: 2px solid #e5e7eb;
-    font-size: 0.9rem;
+    color: white;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 td {
-    padding: 15px;
+    padding: 16px 15px;
     border-bottom: 1px solid #e5e7eb;
     color: #4b5563;
     font-size: 0.9rem;
+    vertical-align: top;
 }
 
-tr:hover {
+tbody tr {
+    transition: all 0.2s ease;
+}
+
+tbody tr:hover {
     background: #f9fafb;
+    transform: scale(1.01);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.student-name {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.college-name {
+    color: #6b7280;
+    font-size: 0.85rem;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.events-cell {
+    max-width: 250px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #4b5563;
+}
+
+.event-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #e0e7ff;
+    color: #4338ca;
+    border-radius: 6px;
+    margin: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.contact-info {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #059669;
+    font-weight: 600;
+}
+
+.amount {
+    font-weight: 800;
+    color: #059669;
+    font-size: 1.1rem;
 }
 
 .status-badge {
-    padding: 6px 12px;
+    padding: 7px 14px;
     border-radius: 20px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
     display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
 .status-submitted {
-    background: #dbeafe;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
     color: #1e40af;
 }
 
 .status-verified {
-    background: #d1fae5;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
     color: #065f46;
 }
 
 .view-btn {
     padding: 8px 16px;
-    background: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -139,41 +313,127 @@ tr:hover {
     font-size: 0.85rem;
     text-decoration: none;
     display: inline-block;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .view-btn:hover {
-    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.search-box {
+.date-cell {
+    font-size: 0.8rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: #9ca3af;
+}
+
+.empty-state-icon {
+    font-size: 5rem;
     margin-bottom: 20px;
+    opacity: 0.5;
 }
 
-.search-box input {
-    width: 100%;
-    max-width: 400px;
-    padding: 12px 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
+.empty-state h3 {
+    font-size: 1.5rem;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
     font-size: 1rem;
 }
 
-.search-box input:focus {
-    outline: none;
-    border-color: #667eea;
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+@media (max-width: 1024px) {
+    .header {
+        padding: 25px 30px;
+    }
+    
+    .content, .stats {
+        padding: 25px 30px;
+    }
+    
+    .header-left h1 {
+        font-size: 1.6rem;
+    }
 }
 
 @media (max-width: 768px) {
-    .content, .stats, .header {
+    .header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .header-left h1 {
+        font-size: 1.4rem;
+    }
+    
+    .export-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .content, .stats {
         padding: 20px;
     }
     
-    table {
-        font-size: 0.8rem;
+    .stats {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .table-wrapper {
+        border-radius: 8px;
     }
     
     th, td {
+        padding: 12px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
         padding: 10px;
+    }
+    
+    .container {
+        border-radius: 15px;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+    }
+    
+    .stat-value {
+        font-size: 1.8rem;
     }
 }
 </style>
@@ -182,40 +442,60 @@ tr:hover {
 
 <div class="container">
     <div class="header">
-        <h1>🎯 ZEAL 10.0 - Admin Dashboard</h1>
-        <p>Registration Management</p>
+        <div class="header-left">
+            <h1>🎯 ZEAL 10.0 Admin Dashboard</h1>
+            <p>Registration Management System</p>
+        </div>
+        <a href="/admin/export" class="export-btn">
+            <span>📊</span>
+            <span>Export to Excel</span>
+        </a>
     </div>
 
     <div class="stats">
         <div class="stat-card">
+            <div class="stat-icon">👥</div>
             <div class="stat-value">{{ data|length }}</div>
             <div class="stat-label">Total Registrations</div>
         </div>
         <div class="stat-card">
+            <div class="stat-icon">💰</div>
             <div class="stat-value">₹{{ data|sum(attribute='total_amount') if data else 0 }}</div>
             <div class="stat-label">Total Revenue</div>
         </div>
         <div class="stat-card">
+            <div class="stat-icon">⏳</div>
             <div class="stat-value">{{ data|selectattr('payment_status', 'equalto', 'Submitted')|list|length }}</div>
             <div class="stat-label">Pending Verification</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-value">{{ data|selectattr('payment_status', 'equalto', 'Verified')|list|length }}</div>
+            <div class="stat-label">Verified Payments</div>
         </div>
     </div>
 
     <div class="content">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Search by name, roll no, or college..." onkeyup="searchTable()">
+        {% if data %}
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name, roll no, college, or event..." onkeyup="searchTable()">
+            </div>
+            <div class="filter-info">
+                Showing <span id="visibleCount">{{ data|length }}</span> of {{ data|length }} registrations
+            </div>
         </div>
 
-        <div class="table-container">
+        <div class="table-wrapper">
             <table id="dataTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Student Name</th>
-                        <th>Roll No.</th>
+                        <th>Student Details</th>
                         <th>Course</th>
                         <th>College</th>
                         <th>Events</th>
+                        <th>Group Members</th>
                         <th>Contact</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -226,14 +506,39 @@ tr:hover {
                 <tbody>
                     {% for row in data %}
                     <tr>
-                        <td>{{ row.id }}</td>
-                        <td><strong>{{ row.student_name }}</strong></td>
-                        <td>{{ row.roll_no }}</td>
+                        <td><strong>#{{ row.id }}</strong></td>
+                        <td>
+                            <div class="student-name">{{ row.student_name }}</div>
+                            <div style="color: #9ca3af; font-size: 0.8rem; margin-top: 2px;">{{ row.roll_no }}</div>
+                        </td>
                         <td>{{ row.course }}</td>
-                        <td>{{ row.college }}</td>
-                        <td title="{{ row.events }}">{{ row.events[:50] }}{% if row.events|length > 50 %}...{% endif %}</td>
-                        <td>{{ row.contact_numbers }}</td>
-                        <td><strong>₹{{ row.total_amount }}</strong></td>
+                        <td>
+                            <div class="college-name" title="{{ row.college }}">{{ row.college }}</div>
+                            {% if row.college_id %}
+                            <div style="color: #9ca3af; font-size: 0.75rem; margin-top: 2px;">ID: {{ row.college_id }}</div>
+                            {% endif %}
+                            {% if row.other_college %}
+                            <div style="color: #9ca3af; font-size: 0.75rem; margin-top: 2px;">{{ row.other_college }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="events-cell">
+                            {% set event_list = row.events.split(', ') %}
+                            {% for event in event_list[:2] %}
+                            <span class="event-tag">{{ event }}</span>
+                            {% endfor %}
+                            {% if event_list|length > 2 %}
+                            <span class="event-tag" title="{{ row.events }}">+{{ event_list|length - 2 }} more</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.group_members %}
+                            <div style="font-size: 0.85rem; max-width: 150px;">{{ row.group_members[:50] }}{% if row.group_members|length > 50 %}...{% endif %}</div>
+                            {% else %}
+                            <span style="color: #9ca3af;">Solo</span>
+                            {% endif %}
+                        </td>
+                        <td class="contact-info">{{ row.contact_numbers }}</td>
+                        <td class="amount">₹{{ row.total_amount }}</td>
                         <td>
                             <span class="status-badge status-{{ row.payment_status|lower }}">
                                 {{ row.payment_status }}
@@ -241,19 +546,37 @@ tr:hover {
                         </td>
                         <td>
                             <a href="{{ url_for('view_payment', filename=row.payment_screenshot) }}" 
-                               target="_blank" class="view-btn">View</a>
+                               target="_blank" class="view-btn">👁️ View</a>
                         </td>
-                        <td>{{ row.created_at.strftime('%d-%m-%Y %H:%M') if row.created_at else 'N/A' }}</td>
+                        <td class="date-cell">
+                            {% if row.created_at %}
+                                {% if row.created_at is string %}
+                                    <div>{{ row.created_at.split(' ')[0] }}</div>
+                                    <div style="color: #9ca3af;">{{ row.created_at.split(' ')[1] }}</div>
+                                {% else %}
+                                    <div>{{ row.created_at.strftime('%d-%m-%Y') }}</div>
+                                    <div style="color: #9ca3af;">{{ row.created_at.strftime('%H:%M') }}</div>
+                                {% endif %}
+                            {% else %}
+                            N/A
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        {% if not data %}
-        <div style="text-align: center; padding: 60px 20px; color: #9ca3af;">
+        <div id="noResults" class="no-results" style="display: none;">
+            <h3>🔍 No results found</h3>
+            <p>Try adjusting your search query</p>
+        </div>
+
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
             <h3>No registrations yet</h3>
-            <p>Registrations will appear here once students start signing up.</p>
+            <p>Student registrations will appear here once they start signing up for ZEAL 10.0</p>
         </div>
         {% endif %}
     </div>
@@ -264,17 +587,47 @@ function searchTable() {
     const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
     const table = document.getElementById('dataTable');
-    const tr = table.getElementsByTagName('tr');
+    const tbody = table.getElementsByTagName('tbody')[0];
+    const tr = tbody.getElementsByTagName('tr');
+    const noResults = document.getElementById('noResults');
+    let visibleCount = 0;
 
-    for (let i = 1; i < tr.length; i++) {
-        let txtValue = tr[i].textContent || tr[i].innerText;
+    for (let i = 0; i < tr.length; i++) {
+        const txtValue = tr[i].textContent || tr[i].innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
             tr[i].style.display = '';
+            visibleCount++;
         } else {
             tr[i].style.display = 'none';
         }
     }
+
+    // Update visible count
+    document.getElementById('visibleCount').textContent = visibleCount;
+
+    // Show/hide no results message
+    if (visibleCount === 0 && filter !== '') {
+        table.style.display = 'none';
+        noResults.style.display = 'block';
+    } else {
+        table.style.display = 'table';
+        noResults.style.display = 'none';
+    }
 }
+
+// Add animation on load
+window.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach((row, index) => {
+        row.style.opacity = '0';
+        row.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            row.style.transition = 'all 0.3s ease';
+            row.style.opacity = '1';
+            row.style.transform = 'translateY(0)';
+        }, index * 30);
+    });
+});
 </script>
 
 </body>
